@@ -1,7 +1,9 @@
 export const short = {
   en_US: 'Encrypted mesh messaging over Reticulum — no servers, no accounts',
-  es_ES: 'Mensajería de malla cifrada sobre Reticulum — sin servidores ni cuentas',
-  de_DE: 'Verschlüsselte Mesh-Kommunikation über Reticulum — ohne Server, ohne Konten',
+  es_ES:
+    'Mensajería de malla cifrada sobre Reticulum — sin servidores ni cuentas',
+  de_DE:
+    'Verschlüsselte Mesh-Kommunikation über Reticulum — ohne Server, ohne Konten',
   pl_PL: 'Szyfrowana komunikacja mesh przez Reticulum — bez serwerów i kont',
   fr_FR: 'Messagerie maillée chiffrée via Reticulum — sans serveurs ni comptes',
 }
@@ -42,7 +44,7 @@ export const long = {
     'internet już dziś, a ta sama sieć rozszerza się na łącza radiowe, gdy ' +
     'infrastruktura zawodzi.',
   fr_FR:
-    "MeshChat est une interface web de messagerie sur la pile réseau Reticulum — un " +
+    'MeshChat est une interface web de messagerie sur la pile réseau Reticulum — un ' +
     'maillage chiffré et tolérant aux délais qui fonctionne sur TCP, I2P, radios LoRa, ' +
     "liaisons série, ou n'importe quelle combinaison à la fois. Votre identité est une " +
     "paire de clés que vous détenez, pas un compte qu'on vous accorde ; les messages " +

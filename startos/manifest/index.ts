@@ -5,7 +5,7 @@ export const manifest = setupManifest({
   id: 'reticulum-meshchat',
   title: 'Reticulum MeshChat',
   license: 'MIT',
-  packageRepo: 'https://github.com/rpriven/reticulum-meshchat-startos',
+  packageRepo: 'https://github.com/Start9-Community/reticulum-meshchat-startos',
   upstreamRepo: 'https://github.com/liamcottle/reticulum-meshchat',
   marketingUrl: 'https://reticulum.network/',
   donationUrl: 'https://liamcottle.com',
@@ -14,7 +14,7 @@ export const manifest = setupManifest({
   images: {
     meshchat: {
       source: {
-        dockerBuild: {},
+        dockerTag: 'ghcr.io/liamcottle/reticulum-meshchat:v2.4.0',
       },
       arch: ['x86_64', 'aarch64'],
     },
