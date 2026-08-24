@@ -1,50 +1,51 @@
 # Reticulum MeshChat
 
-Encrypted mesh messaging you own end to end. MeshChat is a web interface for
-[Reticulum](https://reticulum.network/) — a network stack where your **identity is a keypair on
-your disk**, not an account, and messages (LXMF) route peer-to-peer with end-to-end encryption
-and no central servers. Reticulum is medium-agnostic: TCP over the internet, I2P, LoRa radios,
-serial links — one network across all of them.
+## Documentation
 
-## Quick start
+- [Reticulum MeshChat](https://github.com/liamcottle/reticulum-meshchat) — the upstream project README.
+- [The Reticulum Manual](https://reticulum.network/manual/) — the full reference for the network stack MeshChat runs on.
+- [Interface types](https://reticulum.network/manual/interfaces.html) — every kind of connection you can add, and the settings each one takes.
 
-1. **Start the service** and open the **Web UI**. First boot generates your identity keypair —
-   give it a moment.
-2. **Set your display name** — *My Identity* panel, top of the sidebar. Your **LXMF Address**
-   shown there is what other people message.
-3. **Connect to a mesh** — a fresh node only has `AutoInterface` (local network). To reach peers
-   over the internet, add a TCP entry point: *Interfaces → Add Interface → TCP Client*. Find
-   current community entry points at **[directory.rns.recipes](https://directory.rns.recipes)**
-   — entry points come and go, so treat any hardcoded example as possibly stale.
-4. **Restart the service** — interface changes only take effect after a restart (the app shows a
-   banner saying so; the StartOS restart button does the job).
-   ⚠️ **A misconfigured interface can prevent MeshChat from starting** (crash loop, health check
-   stuck on "not yet listening"). If that happens, run the **Reset Network Interfaces** action —
-   it removes custom interfaces while keeping your identity and messages — then restart and re-add
-   the interface with the correct type and target.
-5. **Message someone** — announce yourself (*Announce Now*), then compose to a peer's LXMF
-   address.
+## What you get on StartOS
 
-## Security model — read this
+An always-on Reticulum node with a web interface. Your identity — the keypair that _is_ your address on the mesh — is generated on this server on first start and never leaves it, and your whole message history is stored here rather than with a provider.
 
-**The MeshChat web UI has NO authentication.** Anyone who can reach the Web UI port controls
-your messaging identity: read everything, send as you.
+Because the node stays running, messages sent to you while your phone or laptop is closed still arrive. Reticulum is delay-tolerant, so a peer that is offline now can collect its messages later.
 
-- **Tor access (StartOS default):** effectively safe — the onion address acts like an
-  unguessable bearer token. Don't share it.
-- **LAN access is the real exposure:** any device on your network — a compromised IoT gadget, a
-  guest's laptop — gets full control. If your LAN isn't trusted, don't enable a LAN address for
-  this service, or wait for the planned basic-auth hardening (v1.1).
+## Getting set up
+
+1. **Set the web UI password.** StartOS will not start the service until you have. Run **Set Web UI Password** and save what it shows you — the username is always `admin`, and the password is not shown again. Your browser asks for both the first time you open the web interface.
+
+2. **Start the service and open the Web UI.** The first start generates your identity keypair and initial configuration, so give it up to a minute before the interface answers.
+
+3. **Set your display name** in the _My Identity_ panel at the top of the sidebar. The **LXMF Address** shown there is what other people use to reach you — copy it out and share it.
+
+4. **Connect to the wider mesh.** A new node starts with only `AutoInterface`, which finds Reticulum peers on your local network and nothing beyond it. To reach people over the internet, add a TCP entry point: **Interfaces → Add Interface → TCP Client**, then enter the host and port of a public entry point. Community-run entry points are listed at [directory.rns.recipes](https://directory.rns.recipes); they come and go, so pick a current one rather than reusing an address from an old guide.
+
+5. **Restart the service.** Interface changes are saved immediately but only take effect on the next start — MeshChat shows a banner telling you the same thing.
+
+6. **Announce yourself,** using _Announce Now_, so peers can discover your address. Then open a conversation by pasting someone's LXMF address.
+
+If the service stops coming up after you add an interface, see **Reset Network Interfaces** below.
+
+## Using Reticulum MeshChat
+
+### Web interface
+
+Everything happens here: conversations, your identity, and the list of network interfaces the node connects through. There is no separate configuration screen in StartOS — the app manages its own settings, and they persist across restarts, updates and backups.
+
+### Actions
+
+**Set Web UI Password** — generates the password your browser asks for when you open the web interface. Run it once before the first start; run it again any time you want to change the password. The username is always `admin`. Each run replaces the previous password, so anyone still using the old one is locked out immediately.
+
+**Reset Network Interfaces** — removes every network interface you have added and leaves the default local-network one. Use it when the service will not stay running after an interface change: a wrong address, a port already in use, or a duplicate interface can stop the node from starting at all, which also puts the Interfaces page out of reach. Your identity and your messages are not affected. Restart afterwards, then re-add the interface with corrected settings.
 
 ## Backups
 
-StartOS backups of this service include your **Reticulum identity keypair** and message
-database. That's correct — restoring a backup restores *being you* on the mesh — but it means
-backup media holds the key. Guard it accordingly.
+A backup of this service contains your **identity private key** along with your messages. That is what makes a restore put you back on the mesh as the same person — and it means anyone holding your backup can become you. Store backup media accordingly.
 
-## Scope notes
+## Limitations
 
-- **Radio hardware (RNode/LoRa) is not supported in this version** — network interfaces only
-  (TCP, AutoInterface). Radio passthrough into the container is unverified on StartOS.
-- Your node keeps its own embedded Reticulum instance under this service's volume. Other
-  Reticulum apps on the same box would have separate identities — that's expected.
+- **One password, shared by everyone.** The web interface is protected by a single username and password, checked before anything reaches MeshChat. There are no separate accounts and no way to sign one person out: whoever has the password can read your messages and send as you, and the only way to cut someone off is to run **Set Web UI Password** again, which changes it for everybody.
+
+- **Radio hardware is not supported.** RNode, LoRa and serial connections need physical hardware attached to the node, which this package cannot reach. Network-based interfaces work normally.

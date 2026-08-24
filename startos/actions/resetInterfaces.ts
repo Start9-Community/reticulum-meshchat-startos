@@ -1,53 +1,7 @@
-import { FileHelper } from '@start9labs/start-sdk'
 import { i18n } from '../i18n'
+import { rnsConfig, stripCustomInterfaces } from '../fileModels/rnsConfig'
+
 import { sdk } from '../sdk'
-
-// The RNS config MeshChat's own Interfaces page edits. This action is the ONE
-// sanctioned second writer, and only for surgery: a single misconfigured
-// interface (e.g. a duplicate AutoInterface binding an in-use port) makes RNS
-// init throw, which kills MeshChat before its web server binds — so the UI
-// that could fix the config is unreachable. VM-reproduced 2026-07-17:
-// OSError Errno 98 → python exit 255 → StartOS restart loop.
-const rnsConfig = FileHelper.string({
-  base: sdk.volumes.main,
-  subpath: './.reticulum/config',
-})
-
-// Byte-for-byte the [[Default Interface]] block RNS v2.4.0's bundled stack
-// generates in a fresh config (captured from a real first boot).
-const DEFAULT_INTERFACES_SECTION = `[interfaces]
-
-  [[Default Interface]]
-    type = AutoInterface
-    enabled = Yes
-`
-
-// Top-level section headers are single-bracket ([interfaces]); interface
-// definitions are double-bracket ([[Name]]) and deeper.
-const isTopLevelHeader = (line: string): boolean => {
-  const t = line.trim()
-  return t.startsWith('[') && !t.startsWith('[[') && t.endsWith(']')
-}
-
-export function stripCustomInterfaces(config: string): string {
-  const lines = config.split('\n')
-  const start = lines.findIndex((l) => l.trim() === '[interfaces]')
-  if (start === -1) {
-    return config.trimEnd() + '\n\n' + DEFAULT_INTERFACES_SECTION
-  }
-  let end = lines.length
-  for (let ii = start + 1; ii < lines.length; ii++) {
-    if (isTopLevelHeader(lines[ii])) {
-      end = ii
-      break
-    }
-  }
-  return [
-    ...lines.slice(0, start),
-    DEFAULT_INTERFACES_SECTION,
-    ...lines.slice(end),
-  ].join('\n')
-}
 
 export const resetInterfaces = sdk.Action.withoutInput(
   'reset-interfaces',
@@ -60,6 +14,8 @@ export const resetInterfaces = sdk.Action.withoutInput(
     warning: i18n(
       'Custom interface definitions will be deleted. Your identity and messages are untouched.',
     ),
+    // A bad interface definition kills RNS init before the web server binds, so
+    // the app's own Interfaces page is unreachable exactly when this is needed.
     allowedStatuses: 'any',
     group: null,
     visibility: 'enabled',
