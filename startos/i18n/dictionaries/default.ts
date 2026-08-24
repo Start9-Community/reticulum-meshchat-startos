@@ -12,6 +12,15 @@ const dict = {
   'Interfaces Reset': 8,
   'No RNS config found — nothing to reset.': 9,
   'All custom interfaces removed. Restart the service to apply.': 10,
+  'Set Web UI Password': 11,
+  'Reset Web UI Password': 12,
+  'Generate the password for the MeshChat web interface. The username is always "admin". Running this again replaces the existing password.': 13,
+  'The current password stops working as soon as this runs.': 14,
+  'Web UI Password Set': 15,
+  'Your browser asks for these the next time you open the Web UI. Save the password now — it is not shown again.': 16,
+  Username: 17,
+  Password: 18,
+  'MeshChat has no login of its own — set a password before starting it': 19,
 } as const
 
 export type I18nKey = keyof typeof dict

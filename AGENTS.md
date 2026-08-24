@@ -27,4 +27,5 @@ verified, tried, and decided belongs in the commit message and the PR body.
 ## This repo
 
 - **The `main` volume mounts at `/config` and carries the whole state surface** — `.reticulum` (RNS config and its interface definitions) and `.meshchat` (message database and the `identity` private key). Re-scoping or splitting that mount gives the node a new identity, which is unrecoverable for anyone who has already announced the old one.
+- **Web UI authentication lives at the StartOS reverse proxy** (`addSsl.auth` in `startos/interfaces.ts`), not in MeshChat, which has none of its own. Don't add an in-container auth layer or a sidecar proxy. `UPDATING.md` § Removing the auth gate lists what to delete when upstream ships auth.
 - **The RNS config has two writers.** MeshChat's own Interfaces page owns it; the `reset-interfaces` action is the only sanctioned second writer, and only to strip a definition that stops the service from starting. Don't add package-side configuration that competes with the app's UI.

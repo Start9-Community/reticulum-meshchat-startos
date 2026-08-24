@@ -27,3 +27,16 @@ The current pin lives in `startos/manifest/index.ts` at `images.meshchat.source.
 
 - Bump `dockerTag` in `startos/manifest/index.ts` to the new tag (upstream tags carry a leading `v`).
 - Bump `version` in `startos/versions/current.ts` to `<upstream version>:0` and write release notes for every locale in `startos/i18n/dictionaries/translations.ts`.
+
+## Removing the auth gate
+
+MeshChat has no authentication of its own, so this package gates the web port with HTTP basic auth at the StartOS reverse proxy. That is a stand-in for upstream support, tracked at [liamcottle/reticulum-meshchat#8](https://github.com/liamcottle/reticulum-meshchat/issues/8) — **check it on every bump**, and when a release lands with the app's own auth, drop the gate in the same bump:
+
+- the `addSsl.auth` block in `startos/interfaces.ts`, and `uiUsername` in `startos/utils.ts`
+- `startos/fileModels/store.json.ts`
+- `startos/actions/setPassword.ts`, and its registration in `startos/actions/index.ts`
+- `startos/init/watchPassword.ts`, and its registration in `startos/init/index.ts`
+- the strings they contributed to `startos/i18n/dictionaries/`
+- the `set-password` action, its task, and `store.json` throughout `README.md` and `instructions.md`
+
+`store.json` holds a plaintext credential that nothing will read any more, so delete it in that version's migration rather than leaving it in the volume.
