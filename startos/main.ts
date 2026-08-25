@@ -1,6 +1,6 @@
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { mount, webPort } from './utils'
+import { daemonCommand, mount, webPort } from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Reticulum MeshChat!'))
@@ -12,17 +12,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
       mount,
       'meshchat-sub',
     ),
-    exec: {
-      command: [
-        'python',
-        '/app/meshchat.py',
-        '--host=0.0.0.0',
-        `--port=${webPort}`,
-        '--reticulum-config-dir=/config/.reticulum',
-        '--storage-dir=/config/.meshchat',
-        '--headless',
-      ],
-    },
+    exec: { command: daemonCommand },
     ready: {
       display: i18n('Web UI'),
       // First boot generates the identity keypair and the RNS config before the

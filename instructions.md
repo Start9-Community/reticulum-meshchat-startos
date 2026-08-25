@@ -40,6 +40,12 @@ Everything happens here: conversations, your identity, and the list of network i
 
 **Reset Network Interfaces** — removes every network interface you have added and leaves the default local-network one. Use it when the service will not stay running after an interface change: a wrong address, a port already in use, or a duplicate interface can stop the node from starting at all, which also puts the Interfaces page out of reach. Your identity and your messages are not affected. Restart afterwards, then re-add the interface with corrected settings.
 
+### Announcing
+
+Announcing is how other people's nodes learn the route to your address. This server announces itself every hour on its own; the dropdown beside _Announce Now_ changes that interval or turns it off.
+
+After an update or a reinstall, messages can sit and retry silently in both directions until each side has announced again. That clears on its own within the hour — to fix it immediately, press _Announce Now_ and ask the person you are messaging to do the same.
+
 ## Backups
 
 A backup of this service contains your **identity private key** along with your messages. That is what makes a restore put you back on the mesh as the same person — and it means anyone holding your backup can become you. Store backup media accordingly.

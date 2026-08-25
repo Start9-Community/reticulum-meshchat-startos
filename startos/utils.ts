@@ -1,3 +1,4 @@
+import { T } from '@start9labs/start-sdk'
 import { sdk } from './sdk'
 
 export const webPort = 8000
@@ -13,3 +14,14 @@ export const mount = sdk.Mounts.of().mountVolume({
   mountpoint: '/config',
   readonly: false,
 })
+
+// `--headless` suppresses the desktop browser launch the app otherwise attempts.
+export const daemonCommand: T.CommandType = [
+  'python',
+  '/app/meshchat.py',
+  '--host=0.0.0.0',
+  `--port=${webPort}`,
+  '--reticulum-config-dir=/config/.reticulum',
+  '--storage-dir=/config/.meshchat',
+  '--headless',
+]

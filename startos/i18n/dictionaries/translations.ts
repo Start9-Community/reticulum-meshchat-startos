@@ -22,6 +22,7 @@ export default {
     17: 'Usuario',
     18: 'Contraseña',
     19: 'MeshChat no tiene inicio de sesión propio — establece una contraseña antes de iniciarlo',
+    20: 'Activando anuncios automáticos',
   },
   de_DE: {
     0: 'Reticulum MeshChat wird gestartet!',
@@ -44,6 +45,7 @@ export default {
     17: 'Benutzername',
     18: 'Passwort',
     19: 'MeshChat hat keine eigene Anmeldung — lege vor dem Start ein Passwort fest',
+    20: 'Automatische Ankündigungen werden aktiviert',
   },
   pl_PL: {
     0: 'Uruchamianie Reticulum MeshChat!',
@@ -66,6 +68,7 @@ export default {
     17: 'Nazwa użytkownika',
     18: 'Hasło',
     19: 'MeshChat nie ma własnego logowania — ustaw hasło przed jego uruchomieniem',
+    20: 'Włączanie automatycznych ogłoszeń',
   },
   fr_FR: {
     0: 'Démarrage de Reticulum MeshChat !',
@@ -88,5 +91,6 @@ export default {
     17: 'Nom d’utilisateur',
     18: 'Mot de passe',
     19: 'MeshChat n’a pas de connexion propre — définissez un mot de passe avant de le démarrer',
+    20: 'Activation des annonces automatiques',
   },
 } satisfies Record<string, LangDict>

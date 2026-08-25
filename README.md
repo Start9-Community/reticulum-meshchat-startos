@@ -65,7 +65,7 @@ One volume holds everything the node is. Nothing is stored outside it.
 | `.reticulum/config`     | RNS configuration, including every network interface definition |
 | `.meshchat/identity`    | The node's private key — its LXMF address                       |
 | `.meshchat/`            | The message database and MeshChat's own settings                |
-| `store.json`            | The web UI password the reverse proxy checks                    |
+| `store.json`            | The web UI password, and the announce-seed marker               |
 
 Splitting or re-scoping this mount would give the node a **new identity**, which is unrecoverable for anyone who has already announced the old one. The only StartOS-side state is `store.json`, which holds the web UI password and nothing else.
 
@@ -82,7 +82,7 @@ Two models: MeshChat's own RNS configuration, which the package barely touches, 
 
 The one exception is the `reset-interfaces` action, which rewrites the `[interfaces]` section — and only that section — back to a lone `AutoInterface`. Everything above and below it is preserved verbatim. It is handled as raw text rather than a structured model precisely so that a round-trip cannot reformat or drop keys the package does not understand.
 
-`store.json` is written only by the package, and holds one key: `uiPassword`, the credential the reverse proxy checks. It is created the first time the `set-password` action runs and rewritten on every later run. A hand edit survives — nothing re-asserts it — and takes effect without a restart, because `setInterfaces` reads the value reactively. MeshChat never sees this file.
+`store.json` is written only by the package and holds two keys: `uiPassword`, the credential the reverse proxy checks, and `autoAnnounceSeeded`, a write-once marker. Install creates the file; the `set-password` action rewrites `uiPassword` on every run. A hand edit survives — nothing re-asserts it — and a password edit takes effect without a restart, because `setInterfaces` reads the value reactively. MeshChat never sees this file.
 
 ## Dependencies
 
@@ -102,7 +102,9 @@ Reticulum's own peer traffic does **not** run through a StartOS binding: outboun
 
 ## Installation and First-Run Flow
 
-Nothing is seeded, but the service will not start until the web UI password is set: install raises a `critical` task pointing at the `set-password` action, and the service is held until it has run. Once it has, the first start generates the RNS configuration and the identity keypair itself, which is why the health check carries a grace period — the web server does not bind until that work finishes.
+Install does two things. It boots MeshChat once in a temporary container to switch on automatic announces through the app's own API — the same boot that generates the identity keypair and the RNS configuration, so both exist before the service is ever started. It then raises a `critical` task pointing at the `set-password` action and holds the service until that has run.
+
+The health check still carries a grace period: RNS re-initializes on every start and the web server does not bind until it finishes.
 
 A fresh node comes up with a single `AutoInterface`, which reaches Reticulum peers on the local network only. Reaching the wider mesh means adding a TCP entry point from the app's own Interfaces page, and **interface changes take effect only after a service restart**.
 
@@ -171,7 +173,8 @@ A restored instance needs nothing rebuilt and no resync. It reconnects to its co
 2. **Radio hardware is not available.** RNode, LoRa and serial interfaces need a host device passed into the container, which this package does not do. Network interfaces — `AutoInterface`, TCP, I2P — work normally.
 3. **Interface changes require a service restart.** The app writes the config immediately but RNS reads it only at startup.
 4. **The node is self-contained.** It runs its own Reticulum instance against this service's volume, so other Reticulum software on the same server has a separate identity and does not share this one's transport.
-5. **riscv64 is not supported**, because upstream publishes no riscv64 image.
+5. **Automatic announces are on, where upstream ships them off.** Install sets MeshChat's announce interval to one hour through the app's own API. It is seeded once and never re-applied, so changing the interval — or disabling it — in the app sticks. The interval also bounds how long peers can be left without a route to this node after an update, because the app announces once the interval has elapsed and never on startup.
+6. **riscv64 is not supported**, because upstream publishes no riscv64 image.
 
 ---
 
