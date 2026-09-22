@@ -8,7 +8,7 @@
 
 ## What you get on StartOS
 
-An always-on Reticulum node with a web interface. Your identity — the keypair that _is_ your address on the mesh — is generated on this server on first start and never leaves it, and your whole message history is stored here rather than with a provider.
+An always-on Reticulum node with a web interface. Your identity — the keypair that _is_ your address on the mesh — is generated on this server when you install it and never leaves it, and your whole message history is stored here rather than with a provider.
 
 Because the node stays running, messages sent to you while your phone or laptop is closed still arrive. Reticulum is delay-tolerant, so a peer that is offline now can collect its messages later.
 
@@ -16,7 +16,7 @@ Because the node stays running, messages sent to you while your phone or laptop 
 
 1. **Set the web UI password.** StartOS will not start the service until you have. Run **Set Web UI Password** and save what it shows you — the username is always `admin`, and the password is not shown again. Your browser asks for both the first time you open the web interface.
 
-2. **Start the service and open the Web UI.** The first start generates your identity keypair and initial configuration, so give it up to a minute before the interface answers.
+2. **Start the service and open the Web UI.**
 
 3. **Set your display name** in the _My Identity_ panel at the top of the sidebar. The **LXMF Address** shown there is what other people use to reach you — copy it out and share it.
 
@@ -39,6 +39,12 @@ Everything happens here: conversations, your identity, and the list of network i
 **Set Web UI Password** — generates the password your browser asks for when you open the web interface. Run it once before the first start; run it again any time you want to change the password. The username is always `admin`. Each run replaces the previous password, so anyone still using the old one is locked out immediately.
 
 **Reset Network Interfaces** — removes every network interface you have added and leaves the default local-network one. Use it when the service will not stay running after an interface change: a wrong address, a port already in use, or a duplicate interface can stop the node from starting at all, which also puts the Interfaces page out of reach. Your identity and your messages are not affected. Restart afterwards, then re-add the interface with corrected settings.
+
+### Announcing
+
+Announcing is how other people's nodes learn the route to your address. This server announces itself every hour on its own; the dropdown beside _Announce Now_ changes that interval or turns it off.
+
+A message only gets through once the receiving node has announced. If one you send sits retrying, the other person's node hasn't announced recently: ask them to press _Announce Now_, and it goes through on its own once they do. After an update or a reinstall this can happen in both directions — messages to you start getting through again within the hour, since this server announces itself, or sooner if you press _Announce Now_ here.
 
 ## Backups
 

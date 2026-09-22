@@ -7,7 +7,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   // MeshChat ships no authentication of its own, so the StartOS reverse proxy
   // gates the port with HTTP basic auth. Read reactively so the gate follows the
   // credential the moment the set-password action writes it. TEMPORARY: delete
-  // the gate, store.json, actions/setPassword.ts and init/watchPassword.ts once
+  // the gate, uiPassword, actions/setPassword.ts and init/watchPassword.ts once
   // upstream ships auth — liamcottle/reticulum-meshchat#8.
   const password = await storeJson.read((s) => s?.uiPassword).const(effects)
 

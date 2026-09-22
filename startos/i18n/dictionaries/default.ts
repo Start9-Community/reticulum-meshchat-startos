@@ -21,6 +21,7 @@ const dict = {
   Username: 17,
   Password: 18,
   'MeshChat has no login of its own — set a password before starting it': 19,
+  'Enabling automatic announces': 20,
 } as const
 
 export type I18nKey = keyof typeof dict
