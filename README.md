@@ -67,7 +67,7 @@ One volume holds everything the node is. Nothing is stored outside it.
 | `.meshchat/`            | The message database and MeshChat's own settings                |
 | `store.json`            | The web UI password, and the announce-seed marker               |
 
-Splitting or re-scoping this mount would give the node a **new identity**, which is unrecoverable for anyone who has already announced the old one. The only StartOS-side state is `store.json`, which holds the web UI password and nothing else.
+Splitting or re-scoping this mount would give the node a **new identity**, which is unrecoverable for anyone who has already announced the old one. The only StartOS-side state is `store.json`: the web UI password and the announce-seed marker.
 
 ## File Models
 

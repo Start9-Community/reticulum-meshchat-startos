@@ -33,10 +33,10 @@ The current pin lives in `startos/manifest/index.ts` at `images.meshchat.source.
 MeshChat has no authentication of its own, so this package gates the web port with HTTP basic auth at the StartOS reverse proxy. That is a stand-in for upstream support, tracked at [liamcottle/reticulum-meshchat#8](https://github.com/liamcottle/reticulum-meshchat/issues/8) — **check it on every bump**, and when a release lands with the app's own auth, drop the gate in the same bump:
 
 - the `addSsl.auth` block in `startos/interfaces.ts`, and `uiUsername` in `startos/utils.ts`
-- `startos/fileModels/store.json.ts`
+- `uiPassword` in `startos/fileModels/store.json.ts` — not the file itself
 - `startos/actions/setPassword.ts`, and its registration in `startos/actions/index.ts`
 - `startos/init/watchPassword.ts`, and its registration in `startos/init/index.ts`
 - the strings they contributed to `startos/i18n/dictionaries/`
-- the `set-password` action, its task, and `store.json` throughout `README.md` and `instructions.md`
+- the `set-password` action, its task, and `uiPassword` throughout `README.md` and `instructions.md`
 
-`store.json` holds a plaintext credential that nothing will read any more, so delete it in that version's migration rather than leaving it in the volume.
+Drop the `uiPassword` key from `store.json` in that version's migration, since it is a plaintext credential nothing will read any more. Keep the file: its `autoAnnounceSeeded` marker is what stops the announce seed from running again and switching announces back on for anyone who turned them off.
