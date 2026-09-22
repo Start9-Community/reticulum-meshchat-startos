@@ -9,7 +9,7 @@
 > the upstream documentation is accurate and fully applicable — see the
 > Documentation section of `instructions.md` for links.
 
-[Reticulum MeshChat](https://github.com/liamcottle/reticulum-meshchat) is a web interface for messaging over the Reticulum Network Stack: an encrypted, delay-tolerant mesh that carries LXMF messages over TCP, I2P, LoRa radios, serial links, or any mix of them at once. A node's identity is a private key on disk rather than an account, so the keypair this package generates on first start _is_ the user's address on the mesh.
+[Reticulum MeshChat](https://github.com/liamcottle/reticulum-meshchat) is a web interface for messaging over the Reticulum Network Stack: an encrypted, delay-tolerant mesh that carries LXMF messages over TCP, I2P, LoRa radios, serial links, or any mix of them at once. A node's identity is a private key on disk rather than an account, so the keypair this package generates at install _is_ the user's address on the mesh.
 
 - **Upstream repo:** <https://github.com/liamcottle/reticulum-meshchat>
 - **Wrapper repo:** <https://github.com/Start9-Community/reticulum-meshchat-startos>
@@ -78,7 +78,7 @@ Two models: MeshChat's own RNS configuration, which the package barely touches, 
 | `rnsConfig` | `.reticulum/config` | Raw text  |
 | `storeJson` | `store.json`        | JSON      |
 
-**MeshChat's own Interfaces page owns `.reticulum/config`.** RNS writes it on first start and the app rewrites it whenever the user adds, edits, or removes a network interface. The package seeds nothing and re-asserts nothing, so every hand edit and every value set through the app survives a restart and an update.
+**MeshChat's own Interfaces page owns `.reticulum/config`.** RNS writes it at install and the app rewrites it whenever the user adds, edits, or removes a network interface. The package seeds nothing and re-asserts nothing, so every hand edit and every value set through the app survives a restart and an update.
 
 The one exception is the `reset-interfaces` action, which rewrites the `[interfaces]` section — and only that section — back to a lone `AutoInterface`. Everything above and below it is preserved verbatim. It is handled as raw text rather than a structured model precisely so that a round-trip cannot reformat or drop keys the package does not understand.
 
@@ -155,7 +155,7 @@ The check is deliberately **local only**. Mesh reachability depends on peers thi
 
 The check probes the container port directly, so the reverse-proxy auth gate is not in its path: a green check alongside a `401` in the browser means the credential is wrong, not that the service is down.
 
-A failure after the grace period means the process is not serving. The two causes worth separating: a first start on slow storage that simply needs longer, and an RNS interface definition that aborts startup — the latter shows the process exiting and restarting in the service logs, and `reset-interfaces` is the way out of it.
+A failure after the grace period means the process is not serving. The two causes worth separating: a start on slow storage that simply needs longer, and an RNS interface definition that aborts startup — the latter shows the process exiting and restarting in the service logs, and `reset-interfaces` is the way out of it.
 
 ## Backups and Restore
 

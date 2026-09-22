@@ -8,7 +8,7 @@
 
 ## What you get on StartOS
 
-An always-on Reticulum node with a web interface. Your identity — the keypair that _is_ your address on the mesh — is generated on this server on first start and never leaves it, and your whole message history is stored here rather than with a provider.
+An always-on Reticulum node with a web interface. Your identity — the keypair that _is_ your address on the mesh — is generated on this server when you install it and never leaves it, and your whole message history is stored here rather than with a provider.
 
 Because the node stays running, messages sent to you while your phone or laptop is closed still arrive. Reticulum is delay-tolerant, so a peer that is offline now can collect its messages later.
 
@@ -16,7 +16,7 @@ Because the node stays running, messages sent to you while your phone or laptop 
 
 1. **Set the web UI password.** StartOS will not start the service until you have. Run **Set Web UI Password** and save what it shows you — the username is always `admin`, and the password is not shown again. Your browser asks for both the first time you open the web interface.
 
-2. **Start the service and open the Web UI.** The first start generates your identity keypair and initial configuration, so give it up to a minute before the interface answers.
+2. **Start the service and open the Web UI.**
 
 3. **Set your display name** in the _My Identity_ panel at the top of the sidebar. The **LXMF Address** shown there is what other people use to reach you — copy it out and share it.
 

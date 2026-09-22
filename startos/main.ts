@@ -15,8 +15,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     exec: { command: daemonCommand },
     ready: {
       display: i18n('Web UI'),
-      // First boot generates the identity keypair and the RNS config before the
-      // web server binds.
+      // RNS initializes before the web server binds.
       gracePeriod: 60000,
       fn: () =>
         sdk.healthCheck.checkPortListening(effects, webPort, {
