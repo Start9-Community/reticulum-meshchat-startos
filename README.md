@@ -173,7 +173,7 @@ A restored instance needs nothing rebuilt and no resync. It reconnects to its co
 2. **Radio hardware is not available.** RNode, LoRa and serial interfaces need a host device passed into the container, which this package does not do. Network interfaces — `AutoInterface`, TCP, I2P — work normally.
 3. **Interface changes require a service restart.** The app writes the config immediately but RNS reads it only at startup.
 4. **The node is self-contained.** It runs its own Reticulum instance against this service's volume, so other Reticulum software on the same server has a separate identity and does not share this one's transport.
-5. **Automatic announces are on, where upstream ships them off.** Install sets MeshChat's announce interval to one hour through the app's own API. It is seeded once and never re-applied, so changing the interval — or disabling it — in the app sticks. The interval also bounds how long peers can be left without a route to this node after an update, because the app announces once the interval has elapsed and never on startup.
+5. **Automatic announces are on, where upstream ships them off.** Install sets MeshChat's announce interval to one hour through the app's own API. It is seeded once and never re-applied, so changing the interval — or disabling it — in the app sticks. The interval also bounds how long peers can be left without a route to this node after an update, because the app announces once the interval has elapsed and never on startup. It covers only this node's side: a peer that has not announced stays unreachable from here, and messages to it retry silently until it does, after which MeshChat resends them unprompted.
 6. **riscv64 is not supported**, because upstream publishes no riscv64 image.
 
 ---

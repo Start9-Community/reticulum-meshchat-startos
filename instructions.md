@@ -44,7 +44,7 @@ Everything happens here: conversations, your identity, and the list of network i
 
 Announcing is how other people's nodes learn the route to your address. This server announces itself every hour on its own; the dropdown beside _Announce Now_ changes that interval or turns it off.
 
-After an update or a reinstall, messages can sit and retry silently in both directions until each side has announced again. That clears on its own within the hour — to fix it immediately, press _Announce Now_ and ask the person you are messaging to do the same.
+A message only gets through once the receiving node has announced. If one you send sits retrying, the other person's node hasn't announced recently: ask them to press _Announce Now_, and it goes through on its own once they do. After an update or a reinstall this can happen in both directions — messages to you start getting through again within the hour, since this server announces itself, or sooner if you press _Announce Now_ here.
 
 ## Backups
 
