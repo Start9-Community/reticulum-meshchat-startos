@@ -22,6 +22,8 @@ const dict = {
   Password: 18,
   'MeshChat has no login of its own — set a password before starting it': 19,
   'Enabling automatic announces': 20,
+  'Reticulum TCP Server': 21,
+  'Where other Reticulum nodes connect with a TCP Client Interface. Answers once you add a TCP Server Interface on port 4242 in MeshChat.': 22,
 } as const
 
 export type I18nKey = keyof typeof dict

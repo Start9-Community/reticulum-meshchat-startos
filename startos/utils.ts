@@ -3,6 +3,8 @@ import { sdk } from './sdk'
 
 export const webPort = 8000
 
+export const rnsPort = 4242
+
 export const uiUsername = 'admin'
 
 // One volume carries the whole state surface: /config/.reticulum holds the RNS
