@@ -23,6 +23,8 @@ export default {
     18: 'Contraseña',
     19: 'MeshChat no tiene inicio de sesión propio — establece una contraseña antes de iniciarlo',
     20: 'Activando anuncios automáticos',
+    21: 'Servidor TCP de Reticulum',
+    22: 'Donde otros nodos Reticulum se conectan con una TCP Client Interface. Responde en cuanto añades una TCP Server Interface en el puerto 4242 en MeshChat.',
   },
   de_DE: {
     0: 'Reticulum MeshChat wird gestartet!',
@@ -46,6 +48,8 @@ export default {
     18: 'Passwort',
     19: 'MeshChat hat keine eigene Anmeldung — lege vor dem Start ein Passwort fest',
     20: 'Automatische Ankündigungen werden aktiviert',
+    21: 'Reticulum-TCP-Server',
+    22: 'Hier verbinden sich andere Reticulum-Knoten mit einer TCP Client Interface. Antwortet, sobald du in MeshChat eine TCP Server Interface auf Port 4242 hinzufügst.',
   },
   pl_PL: {
     0: 'Uruchamianie Reticulum MeshChat!',
@@ -69,6 +73,8 @@ export default {
     18: 'Hasło',
     19: 'MeshChat nie ma własnego logowania — ustaw hasło przed jego uruchomieniem',
     20: 'Włączanie automatycznych ogłoszeń',
+    21: 'Serwer TCP Reticulum',
+    22: 'Tu łączą się inne węzły Reticulum przez TCP Client Interface. Odpowiada, gdy dodasz w MeshChat TCP Server Interface na porcie 4242.',
   },
   fr_FR: {
     0: 'Démarrage de Reticulum MeshChat !',
@@ -92,5 +98,7 @@ export default {
     18: 'Mot de passe',
     19: 'MeshChat n’a pas de connexion propre — définissez un mot de passe avant de le démarrer',
     20: 'Activation des annonces automatiques',
+    21: 'Serveur TCP Reticulum',
+    22: 'Là où les autres nœuds Reticulum se connectent avec une TCP Client Interface. Répond dès que vous ajoutez une TCP Server Interface sur le port 4242 dans MeshChat.',
   },
 } satisfies Record<string, LangDict>

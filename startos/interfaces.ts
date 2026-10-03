@@ -1,7 +1,7 @@
 import { storeJson } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { uiUsername, webPort } from './utils'
+import { rnsPort, uiUsername, webPort } from './utils'
 
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   // MeshChat ships no authentication of its own, so the StartOS reverse proxy
@@ -43,5 +43,25 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   })
   const webReceipt = await webOrigin.export([webInterface])
 
-  return [webReceipt]
+  const rnsOrigin = await sdk.MultiHost.of(effects, 'rns').bindPort(rnsPort, {
+    protocol: null,
+    addSsl: null,
+    preferredExternalPort: rnsPort,
+    secure: { ssl: false },
+  })
+  const rnsInterface = sdk.createInterface(effects, {
+    name: i18n('Reticulum TCP Server'),
+    id: 'rns',
+    description: i18n(
+      'Where other Reticulum nodes connect with a TCP Client Interface. Answers once you add a TCP Server Interface on port 4242 in MeshChat.',
+    ),
+    type: 'p2p',
+    masked: false,
+    schemeOverride: null,
+    username: null,
+    path: '',
+    query: {},
+  })
+
+  return [webReceipt, await rnsOrigin.export([rnsInterface])]
 })

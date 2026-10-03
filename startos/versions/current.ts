@@ -1,18 +1,18 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '2.4.0:1',
+  version: '2.4.0:2',
   releaseNotes: {
     en_US:
-      'This update turns automatic announces on, even if you had set them to Disabled. Your node now announces itself every hour; the dropdown beside Announce Now changes the interval or turns them off, and later updates leave your choice alone.',
+      'Other Reticulum nodes can now connect to this one over TCP, at the addresses of the new Reticulum TCP Server interface. To use it, add a TCP Server Interface in MeshChat with Listen IP 0.0.0.0 and Listen Port 4242, then restart the service.',
     es_ES:
-      'Esta actualización activa los anuncios automáticos, aunque los hubieras puesto en Disabled. Tu nodo ahora se anuncia cada hora; el desplegable junto a Announce Now cambia el intervalo o los desactiva, y las próximas actualizaciones respetarán tu elección.',
+      'Otros nodos Reticulum ya pueden conectarse a este por TCP, en las direcciones de la nueva interfaz Servidor TCP de Reticulum. Para usarla, añade en MeshChat una TCP Server Interface con Listen IP 0.0.0.0 y Listen Port 4242, y reinicia el servicio.',
     de_DE:
-      'Dieses Update schaltet automatische Ankündigungen ein, auch wenn du sie auf Disabled gesetzt hattest. Dein Knoten kündigt sich jetzt stündlich an; das Auswahlmenü neben Announce Now ändert das Intervall oder schaltet sie ab, und spätere Updates lassen deine Wahl unangetastet.',
+      'Andere Reticulum-Knoten können sich jetzt per TCP mit diesem verbinden, über die Adressen der neuen Schnittstelle Reticulum-TCP-Server. Füge dazu in MeshChat eine TCP Server Interface mit Listen IP 0.0.0.0 und Listen Port 4242 hinzu und starte den Dienst neu.',
     pl_PL:
-      'Ta aktualizacja włącza automatyczne ogłoszenia, nawet jeśli ustawiono je na Disabled. Twój węzeł ogłasza się teraz co godzinę; lista obok Announce Now zmienia interwał lub je wyłącza, a kolejne aktualizacje nie zmienią Twojego wyboru.',
+      'Inne węzły Reticulum mogą teraz łączyć się z tym przez TCP, pod adresami nowego interfejsu Serwer TCP Reticulum. Aby z niego korzystać, dodaj w MeshChat TCP Server Interface z Listen IP 0.0.0.0 i Listen Port 4242, a następnie uruchom usługę ponownie.',
     fr_FR:
-      'Cette mise à jour active les annonces automatiques, même si vous les aviez réglées sur Disabled. Votre nœud s’annonce désormais toutes les heures ; le menu à côté d’Announce Now modifie l’intervalle ou les désactive, et les mises à jour suivantes respecteront votre choix.',
+      'Les autres nœuds Reticulum peuvent désormais se connecter à celui-ci en TCP, aux adresses de la nouvelle interface Serveur TCP Reticulum. Pour l’utiliser, ajoutez dans MeshChat une TCP Server Interface avec Listen IP 0.0.0.0 et Listen Port 4242, puis redémarrez le service.',
   },
   migrations: {
     up: async () => {},

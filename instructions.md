@@ -20,7 +20,7 @@ Because the node stays running, messages sent to you while your phone or laptop 
 
 3. **Set your display name** in the _My Identity_ panel at the top of the sidebar. The **LXMF Address** shown there is what other people use to reach you — copy it out and share it.
 
-4. **Connect to the wider mesh.** A new node starts with only `AutoInterface`, which finds Reticulum peers on your local network and nothing beyond it. To reach people over the internet, add a TCP entry point: **Interfaces → Add Interface → TCP Client**, then enter the host and port of a public entry point. Community-run entry points are listed at [directory.rns.recipes](https://directory.rns.recipes); they come and go, so pick a current one rather than reusing an address from an old guide.
+4. **Connect to the wider mesh.** A new node starts with only `AutoInterface`, which finds no peers on StartOS (see **Limitations** below). To reach people over the internet, add a TCP entry point: **Interfaces → Add Interface → TCP Client Interface**, then enter the host and port of a public entry point. Community-run entry points are listed at [directory.rns.recipes](https://directory.rns.recipes); they come and go, so pick a current one rather than reusing an address from an old guide. To connect your own phone or computer to this node, see **Letting other devices connect to this node** below.
 
 5. **Restart the service.** Interface changes are saved immediately but only take effect on the next start — MeshChat shows a banner telling you the same thing.
 
@@ -33,6 +33,15 @@ If the service stops coming up after you add an interface, see **Reset Network I
 ### Web interface
 
 Everything happens here: conversations, your identity, and the list of network interfaces the node connects through. There is no separate configuration screen in StartOS — the app manages its own settings, and they persist across restarts, updates and backups.
+
+### Letting other devices connect to this node
+
+Your phone, or another Reticulum node, can connect straight to this server instead of meeting it through a public entry point.
+
+1. In MeshChat, go to **Interfaces → Add Interface**, choose **TCP Server Interface**, and set **Listen IP** to `0.0.0.0` and **Listen Port** to `4242`. The port must be `4242`: it is the one StartOS forwards to MeshChat.
+2. Restart the service.
+3. In StartOS, open this service's **Reticulum TCP Server** interface and pick an IPv4 address: your server's local address for devices on your network, or a public address you have set up for devices elsewhere.
+4. On the other device, add a **TCP Client Interface** with that address as **Target Host** and the port shown with it as **Target Port**.
 
 ### Actions
 
@@ -54,4 +63,6 @@ A backup of this service contains your **identity private key** along with your 
 
 - **One password, shared by everyone.** The web interface is protected by a single username and password, checked before anything reaches MeshChat. There are no separate accounts and no way to sign one person out: whoever has the password can read your messages and send as you, and the only way to cut someone off is to run **Set Web UI Password** again, which changes it for everybody.
 
-- **Radio hardware is not supported.** RNode, LoRa and serial connections need physical hardware attached to the node, which this package cannot reach. Network-based interfaces work normally.
+- **Devices on your network can't find this node on their own.** StartOS doesn't pass local network discovery traffic to services, so `AutoInterface` never sees your phone or computer, even on the same Wi-Fi. Connect them over TCP instead, as described in **Letting other devices connect to this node**.
+
+- **Radio hardware is not supported.** RNode, LoRa and serial connections need physical hardware attached to the node, which this package cannot reach.
