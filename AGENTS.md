@@ -18,15 +18,23 @@ Freshly scaffolded? Work the
 guide page, not a file in this repo — read it, don't copy it in.
 
 Keep `README.md` (technical reference for an AI support or administering agent) and
-`instructions.md` (end-user docs) in sync with your changes.
+`instructions.md` (end-user docs) in sync with your changes. This file restates neither:
+whoever changes the package has both, so it carries only what they don't — repo mechanics,
+a change that looks right and is not, where the next thing gets added, a naming trap, a
+build or test invocation particular to this repo.
 
-**Bugs and feature requests are GitHub issues on this repo** — file them as you find them.
+**Fix a defect you spot rather than reporting it** — you have the package open and the
+context to be sure. File **a GitHub issue on this repo** only when the call isn't yours to
+make: you can't pin the cause down, two defensible fixes exist, or it's too large to ride on
+the work in hand. An open issue is a report, not a queue — implement one when you're asked
+to or when it's labelled `Approved`, then close it with `Closes #<n>`.
+
 Don't record work in the repo instead: no `TODO.md`, no `NOTES.md`, no `PLAN.md`. What you
 verified, tried, and decided belongs in the commit message and the PR body.
 
 ## This repo
 
-- **The `main` volume mounts at `/config` and carries the whole state surface** — `.reticulum` (RNS config and its interface definitions) and `.meshchat` (message database and the `identity` private key). Re-scoping or splitting that mount gives the node a new identity, which is unrecoverable for anyone who has already announced the old one.
-- **Web UI authentication lives at the StartOS reverse proxy** (`addSsl.auth` in `startos/interfaces.ts`), not in MeshChat, which has none of its own. Don't add an in-container auth layer or a sidecar proxy. `UPDATING.md` § Removing the auth gate lists what to delete when upstream ships auth.
-- **The RNS config has two writers.** MeshChat's own Interfaces page owns it; the `reset-interfaces` action is the only sanctioned second writer, and only to strip a definition that stops the service from starting. Don't add package-side configuration that competes with the app's UI.
+- **Never split or re-scope the `main` mount at `/config`.** It holds the identity private key, so the node would come up as a new identity, unrecoverable for anyone who has already announced the old one.
+- **Keep web UI authentication at the StartOS reverse proxy** (`addSsl.auth` in `startos/interfaces.ts`); don't add an in-container auth layer or a sidecar proxy. `UPDATING.md` § Removing the auth gate lists what to delete when upstream ships auth.
+- **Don't add package-side RNS configuration.** MeshChat's Interfaces page owns `.reticulum/config`; `reset-interfaces` is the only other writer, and only to strip a definition that stops the service starting.
 - **Never change `rnsPort`.** Users' TCP Server Interfaces listen on it, and the package can't rewrite their RNS config to follow it.
