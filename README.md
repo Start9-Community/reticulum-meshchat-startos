@@ -164,7 +164,7 @@ A failure after the grace period means the process is not serving. The two cause
 
 The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')` — except LXMF's propagation-node message store, `.meshchat/identities/<id>/lxmf_router/lxmf/messagestore/`. Nothing is dumped.
 
-That store exists only while MeshChat's **Local Propagation Node** is on, and holds the messages the node relays for other users, one file per message for up to 30 days. Messages addressed to this node never land in it: LXMF hands them to MeshChat, which keeps them in `database.db`. The exclude covers restore as well, because a backup taken before it carries a copy of the store that rsync's `--delete` never removes from the target.
+Enabling MeshChat's **Local Propagation Node** creates this store, which holds the messages the node relays for other users, one file per message. While enabled, LXMF expires messages after 30 days; disabling it leaves stored messages on disk without expiry cleanup. Messages addressed to this node never land in it: LXMF hands them to MeshChat, which keeps them in `database.db`. The exclude covers restore as well, because a backup taken before it carries a copy of the store that rsync's `--delete` never removes from the target.
 
 Everything else is restored, including **the identity private key**, which is the intended behavior: restoring a backup restores being the same node on the mesh, with the same LXMF address and the same message history. It also means the backup medium holds the key that _is_ that identity.
 
