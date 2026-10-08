@@ -26,7 +26,8 @@ The current pin lives in `startos/manifest/index.ts` at `images.meshchat.source.
 ## Applying the bump
 
 - Bump `dockerTag` in `startos/manifest/index.ts` to the new tag (upstream tags carry a leading `v`).
-- Bump `version` in `startos/versions/current.ts` to `<upstream version>:0` and write release notes for every locale in `startos/i18n/dictionaries/translations.ts`.
+- Bump `version` in `startos/versions/current.ts` to `<upstream version>:0` and write release notes for every locale in its `releaseNotes`.
+- Confirm the backup exclude in `startos/backups.ts` still names LXMF's propagation-node store. MeshChat hands LXMF `identities/<id>/lxmf_router` as its storage path, and LXMF keeps the store at `lxmf/messagestore/` beneath it; if either moves, the exclude stops matching without an error.
 
 ## Removing the auth gate
 
