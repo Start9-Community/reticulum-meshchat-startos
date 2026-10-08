@@ -162,13 +162,15 @@ A failure after the grace period means the process is not serving. The two cause
 
 ## Backups and Restore
 
-The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')`. Nothing is excluded and nothing is dumped, so a restore returns the node exactly as it was.
+The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')` — except LXMF's propagation-node message store, `.meshchat/identities/<id>/lxmf_router/lxmf/messagestore/`. Nothing is dumped.
 
-That includes **the identity private key**, which is the intended behavior: restoring a backup restores being the same node on the mesh, with the same LXMF address and the same message history. It also means the backup medium holds the key that _is_ that identity.
+Enabling MeshChat's **Local Propagation Node** creates this store, which holds the messages the node relays for other users, one file per message. While enabled, LXMF expires messages after 30 days; disabling it leaves stored messages on disk without expiry cleanup. Messages addressed to this node never land in it: LXMF hands them to MeshChat, which keeps them in `database.db`. The exclude covers restore as well, because a backup taken before it carries a copy of the store that rsync's `--delete` never removes from the target.
+
+Everything else is restored, including **the identity private key**, which is the intended behavior: restoring a backup restores being the same node on the mesh, with the same LXMF address and the same message history. It also means the backup medium holds the key that _is_ that identity.
 
 `store.json` is inside the volume, so the web UI password comes back with everything else and the restored instance is reachable with the credentials that were in use when the backup was taken.
 
-A restored instance needs nothing rebuilt and no resync. It reconnects to its configured interfaces on start.
+A restored instance needs nothing rebuilt and no resync. It reconnects to its configured interfaces on start. With the Local Propagation Node on, it is the same relay to its peers, with an empty message store.
 
 ## Limitations and Differences
 

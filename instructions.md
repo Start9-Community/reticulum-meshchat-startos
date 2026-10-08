@@ -59,6 +59,8 @@ A message only gets through once the receiving node has announced. If one you se
 
 A backup of this service contains your **identity private key** along with your messages. That is what makes a restore put you back on the mesh as the same person — and it means anyone holding your backup can become you. Store backup media accordingly.
 
+If you run a **Local Propagation Node**, the messages it holds for other people are not backed up. After a restore, it starts with none.
+
 ## Limitations
 
 - **One password, shared by everyone.** The web interface is protected by a single username and password, checked before anything reaches MeshChat. There are no separate accounts and no way to sign one person out: whoever has the password can read your messages and send as you, and the only way to cut someone off is to run **Set Web UI Password** again, which changes it for everybody.
