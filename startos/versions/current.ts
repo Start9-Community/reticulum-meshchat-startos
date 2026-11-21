@@ -1,15 +1,18 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '2.4.0:4',
+  version: '2.4.0:5',
   releaseNotes: {
-    en_US: 'Updated the StartOS SDK to 3.0.6. No change in behavior.',
+    en_US:
+      'Backups no longer include the announce cache, which the node rebuilds from the network.',
     es_ES:
-      'Actualizado el SDK de StartOS a 3.0.6. Sin cambios de comportamiento.',
-    de_DE: 'StartOS-SDK auf 3.0.6 aktualisiert. Keine Verhaltensänderung.',
-    pl_PL: 'Zaktualizowano SDK StartOS do 3.0.6. Bez zmian w działaniu.',
+      'Las copias de seguridad ya no incluyen la caché de anuncios, que el nodo reconstruye desde la red.',
+    de_DE:
+      'Backups enthalten den Announce-Cache nicht mehr; der Knoten baut ihn aus dem Netzwerk neu auf.',
+    pl_PL:
+      'Kopie zapasowe nie zawierają już pamięci podręcznej ogłoszeń, którą węzeł odbudowuje z sieci.',
     fr_FR:
-      'Mise à jour du SDK StartOS vers 3.0.6. Aucun changement de comportement.',
+      'Les sauvegardes n\'incluent plus le cache des annonces, que le nœud reconstruit depuis le réseau.',
   },
   migrations: {
     up: async () => {},

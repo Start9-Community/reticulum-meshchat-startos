@@ -61,6 +61,8 @@ A backup of this service contains your **identity private key** along with your 
 
 If you run a **Local Propagation Node**, the messages it holds for other people are not backed up. After a restore, it starts with none.
 
+The cache of announces heard on the mesh is not backed up either. It is only a speed-up for routing, and the node fills it again by listening.
+
 ## Limitations
 
 - **One password, shared by everyone.** The web interface is protected by a single username and password, checked before anything reaches MeshChat. There are no separate accounts and no way to sign one person out: whoever has the password can read your messages and send as you, and the only way to cut someone off is to run **Set Web UI Password** again, which changes it for everybody.

@@ -162,7 +162,7 @@ A failure after the grace period means the process is not serving. The two cause
 
 ## Backups and Restore
 
-The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')` — except LXMF's propagation-node message store, `.meshchat/identities/<id>/lxmf_router/lxmf/messagestore/`. Nothing is dumped.
+The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')` — except two rebuildable trees: LXMF's propagation-node message store, `.meshchat/identities/<id>/lxmf_router/lxmf/messagestore/`, and Reticulum's packet cache, `.reticulum/storage/cache/` (almost all of it announces). Nothing is dumped.
 
 Enabling MeshChat's **Local Propagation Node** creates this store, which holds the messages the node relays for other users, one file per message. While enabled, LXMF expires messages after 30 days; disabling it leaves stored messages on disk without expiry cleanup. Messages addressed to this node never land in it: LXMF hands them to MeshChat, which keeps them in `database.db`. The exclude covers restore as well, because a backup taken before it carries a copy of the store that rsync's `--delete` never removes from the target.
 
@@ -170,7 +170,7 @@ Everything else is restored, including **the identity private key**, which is th
 
 `store.json` is inside the volume, so the web UI password comes back with everything else and the restored instance is reachable with the credentials that were in use when the backup was taken.
 
-A restored instance needs nothing rebuilt and no resync. It reconnects to its configured interfaces on start. With the Local Propagation Node on, it is the same relay to its peers, with an empty message store.
+A restored instance reconnects to its configured interfaces on start and refills the packet cache as it hears the mesh; the cache is one small file per announce (tens of thousands on a long-running node), which is why backups leave it out. With transport enabled, the saved path table reloads only entries whose announce is still cached, so after a restore those paths are relearned the same way. With the Local Propagation Node on, it is the same relay to its peers, with an empty message store.
 
 ## Limitations and Differences
 
