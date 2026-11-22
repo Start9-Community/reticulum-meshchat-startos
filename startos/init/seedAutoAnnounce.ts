@@ -29,7 +29,7 @@ export const seedAutoAnnounce = sdk.setupOnInit(
     await sdk.Daemons.of(effects)
       .addDaemon('app', {
         subcontainer: seedSub,
-        exec: { command: daemonCommand },
+        exec: { command: daemonCommand('127.0.0.1') },
         ready: {
           display: null,
           gracePeriod: 60000,

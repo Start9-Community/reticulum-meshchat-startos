@@ -1,18 +1,18 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '2.4.0:5',
+  version: '2.4.0:6',
   releaseNotes: {
     en_US:
-      'Backups no longer include the announce cache, which the node rebuilds from the network.',
+      'From the moment it is installed, the web interface accepts no sign-in until you set its password.',
     es_ES:
-      'Las copias de seguridad ya no incluyen la caché de anuncios, que el nodo reconstruye desde la red.',
+      'Desde el momento de la instalación, la interfaz web no acepta ningún inicio de sesión hasta que establezcas su contraseña.',
     de_DE:
-      'Backups enthalten den Announce-Cache nicht mehr; der Knoten baut ihn aus dem Netzwerk neu auf.',
+      'Ab der Installation akzeptiert die Weboberfläche keine Anmeldung, bis du ihr Passwort festlegst.',
     pl_PL:
-      'Kopie zapasowe nie zawierają już pamięci podręcznej ogłoszeń, którą węzeł odbudowuje z sieci.',
+      'Od chwili instalacji interfejs webowy nie przyjmuje żadnego logowania, dopóki nie ustawisz jego hasła.',
     fr_FR:
-      'Les sauvegardes n\'incluent plus le cache des annonces, que le nœud reconstruit depuis le réseau.',
+      "Dès l'installation, l'interface web n'accepte aucune connexion tant que vous n'avez pas défini son mot de passe.",
   },
   migrations: {
     up: async () => {},

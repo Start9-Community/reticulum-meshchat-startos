@@ -18,10 +18,13 @@ export const mount = sdk.Mounts.of().mountVolume({
 })
 
 // `--headless` suppresses the desktop browser launch the app otherwise attempts.
-export const daemonCommand: T.CommandType = [
+// The service listens on every address so the reverse proxy can reach it; the
+// install seed listens on loopback only, since it talks to itself and nothing
+// else should reach it before the web UI has a password.
+export const daemonCommand = (host: '0.0.0.0' | '127.0.0.1'): T.CommandType => [
   'python',
   '/app/meshchat.py',
-  '--host=0.0.0.0',
+  `--host=${host}`,
   `--port=${webPort}`,
   '--reticulum-config-dir=/config/.reticulum',
   '--storage-dir=/config/.meshchat',
