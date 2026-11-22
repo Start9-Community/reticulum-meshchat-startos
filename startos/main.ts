@@ -12,7 +12,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
       mount,
       'meshchat-sub',
     ),
-    exec: { command: daemonCommand },
+    exec: { command: daemonCommand('0.0.0.0') },
     ready: {
       display: i18n('Web UI'),
       // RNS initializes before the web server binds.

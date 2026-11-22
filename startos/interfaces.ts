@@ -6,24 +6,23 @@ import { rnsPort, uiUsername, webPort } from './utils'
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   // MeshChat ships no authentication of its own, so the StartOS reverse proxy
   // gates the port with HTTP basic auth. Read reactively so the gate follows the
-  // credential the moment the set-password action writes it. TEMPORARY: delete
-  // the gate, uiPassword, actions/setPassword.ts and init/watchPassword.ts once
-  // upstream ships auth — liamcottle/reticulum-meshchat#8.
+  // credential the moment the set-password action writes it. The gate is always
+  // on: with no password yet it holds no credentials, and so admits nobody.
+  // TEMPORARY: delete the gate, uiPassword, actions/setPassword.ts and
+  // init/watchPassword.ts once upstream ships auth — liamcottle/reticulum-meshchat#8.
   const password = await storeJson.read((s) => s?.uiPassword).const(effects)
 
   const webMulti = sdk.MultiHost.of(effects, 'web')
   const webOrigin = await webMulti.bindPort(webPort, {
     protocol: 'http',
     preferredExternalPort: webPort,
-    addSsl: password
-      ? {
-          auth: {
-            type: 'basic',
-            credentials: [{ username: uiUsername, password }],
-            realm: null,
-          },
-        }
-      : undefined,
+    addSsl: {
+      auth: {
+        type: 'basic',
+        credentials: password ? [{ username: uiUsername, password }] : [],
+        realm: null,
+      },
+    },
   })
   const webInterface = sdk.createInterface(effects, {
     name: i18n('Web UI'),
